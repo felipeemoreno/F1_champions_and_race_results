@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "node index.js"
+    "start": "node ./src/index.ts"
   },
   "repository": "https://github.com/felipeemoreno/F1_champions_and_race_results.git",
   "author": "Felipe Estevão Moreno <contato@wr5solutions.com.br>",
   "license": "MIT",
-  "devDependencies": {},
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  },
   "dependencies": {
     "axios": "^0.21.1"
   }
