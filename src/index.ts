@@ -8,3 +8,4 @@ axios.get('http://ergast.com/api/f1/2021/1/results.json')
   .catch(err => {
     console.error(err);
   });
+  
