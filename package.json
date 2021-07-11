@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "Application to search champions and results of F1 races.",
   "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start" : "node index.js"
+  },
   "repository": "https://github.com/felipeemoreno/F1_champions_and_race_results.git",
   "author": "Felipe Estevão Moreno <contato@wr5solutions.com.br>",
   "license": "MIT",
