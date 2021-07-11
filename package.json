@@ -11,9 +11,18 @@
   "author": "Felipe Estevão Moreno <contato@wr5solutions.com.br>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^7.30.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2",
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "axios": "^0.21.1"
+    "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.28.2",
+    "axios": "^0.21.1",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "2.22.1"
   }
 }
