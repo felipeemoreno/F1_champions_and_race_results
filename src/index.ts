@@ -25,7 +25,7 @@ interface ChampionsData {
   ];
 }
 
-const getRounds = (argv: yargs.Arguments) => {
+const getRaceResults = (argv: yargs.Arguments) => {
   const { year } = argv;
   API.get(`${year}.json`)
     .then(response => {
@@ -74,7 +74,7 @@ const getChampions = () => {
 
 const init = yargs(hideBin(process.argv))
   .command(
-    'getRounds',
+    'getRaceResults',
     'list all races from a year, use --year ',
     {
       year: {
@@ -85,7 +85,7 @@ const init = yargs(hideBin(process.argv))
     },
     argv => {
       console.info(argv);
-      getRounds(argv);
+      getRaceResults(argv);
     },
   )
   .demandCommand(1)
