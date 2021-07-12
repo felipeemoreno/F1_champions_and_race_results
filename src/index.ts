@@ -4,6 +4,8 @@ import util from 'util';
 
 import API from './services/api';
 
+import Champion from './models/Champion';
+
 interface RaceData {
   season: number;
   round: number;
@@ -36,22 +38,6 @@ interface RaceResultsData {
     {
       position: number;
       Driver: {
-        givenName: string;
-        familyName: string;
-      };
-    },
-  ];
-}
-
-interface ChampionsData {
-  season: number;
-  round: number;
-  DriverStandings: [
-    {
-      points: number;
-      wins: number;
-      Driver: {
-        driverId: string;
         givenName: string;
         familyName: string;
       };
@@ -133,7 +119,7 @@ const getChampions = () => {
 
       const championsDataResults = data.MRData.StandingsTable.StandingsLists;
 
-      const champions = championsDataResults.map((champion: ChampionsData) => {
+      const champions = championsDataResults.map((champion: Champion) => {
         return [
           champion.season,
           champion.round,
