@@ -1,5 +1,6 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
+import util from 'util';
 
 import API from './services/api';
 
@@ -7,6 +8,39 @@ interface RaceData {
   season: number;
   round: number;
   raceName: string;
+}
+
+interface RaceResultsData {
+  season: number;
+  round: number;
+  raceName: string;
+  Circuit: {
+    circuitName: string;
+  };
+  date: string;
+  Results: [
+    {
+      position: number;
+      Driver: {
+        givenName: string;
+        familyName: string;
+      };
+    },
+    {
+      position: number;
+      Driver: {
+        givenName: string;
+        familyName: string;
+      };
+    },
+    {
+      position: number;
+      Driver: {
+        givenName: string;
+        familyName: string;
+      };
+    },
+  ];
 }
 
 interface ChampionsData {
@@ -25,7 +59,7 @@ interface ChampionsData {
   ];
 }
 
-const getRaceResults = (argv: yargs.Arguments) => {
+const getRaces = (argv: yargs.Arguments) => {
   const { year } = argv;
   API.get(`${year}.json`)
     .then(response => {
@@ -34,10 +68,57 @@ const getRaceResults = (argv: yargs.Arguments) => {
       const racesDataResult = data.MRData.RaceTable.Races;
 
       const races = racesDataResult.map((race: RaceData) => {
-        return [race.season, race.round, race.raceName];
+        return {
+          Season: race.season,
+          Round: race.round,
+          RaceName: race.raceName,
+        };
       });
 
       console.table(races);
+      return races;
+    })
+    .catch(err => {
+      console.error(err);
+    });
+};
+
+const getRaceResults = (argv: yargs.Arguments) => {
+  const { year, round } = argv;
+  API.get(`${year}/${round}/results.json`)
+    .then(response => {
+      const { data } = response;
+
+      const racesDataResult = data.MRData.RaceTable.Races;
+
+      const races = racesDataResult.map((race: RaceResultsData) => {
+        return {
+          Season: race.season,
+          Round: race.round,
+          'Race Name': race.raceName,
+          Circuit: race.Circuit.circuitName,
+          Date: race.date,
+          Result: [
+            {
+              Position: race.Results[0].position,
+              GivenName: race.Results[0].Driver.givenName,
+              FamilyName: race.Results[0].Driver.familyName,
+            },
+            {
+              Position: race.Results[1].position,
+              GivenName: race.Results[1].Driver.givenName,
+              FamilyName: race.Results[1].Driver.familyName,
+            },
+            {
+              Position: race.Results[2].position,
+              GivenName: race.Results[2].Driver.givenName,
+              FamilyName: race.Results[2].Driver.familyName,
+            },
+          ],
+        };
+      });
+
+      console.log(util.inspect(races, false, null, true));
       return races;
     })
     .catch(err => {
@@ -75,7 +156,29 @@ const getChampions = () => {
 const init = yargs(hideBin(process.argv))
   .command(
     'getRaceResults',
-    'list all races from a year, use --year ',
+    'list all races from a year, use --year && use --round',
+    {
+      year: {
+        describe: 'insert year from races',
+        demandOption: true,
+        alias: 'y',
+      },
+      round: {
+        describe:
+          'insert number of the round, if you do not know, use getRaces with --year to view the rounds of the year',
+        demandOption: true,
+        alias: 'r',
+      },
+    },
+    argv => {
+      console.info(argv);
+      getRaceResults(argv);
+    },
+  )
+  .demandCommand(1)
+  .command(
+    'getRaces',
+    'list all races from a year, use --year',
     {
       year: {
         describe: 'insert year from races',
@@ -85,7 +188,7 @@ const init = yargs(hideBin(process.argv))
     },
     argv => {
       console.info(argv);
-      getRaceResults(argv);
+      getRaces(argv);
     },
   )
   .demandCommand(1)
