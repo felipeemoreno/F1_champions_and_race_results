@@ -11,6 +11,8 @@
   "author": "Felipe Estevão Moreno <contato@wr5solutions.com.br>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^16.3.1",
+    "@types/yargs": "^17.0.2",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.4.0",
@@ -23,6 +25,7 @@
     "@typescript-eslint/parser": "^4.28.2",
     "axios": "^0.21.1",
     "eslint-config-airbnb-base": "^14.2.1",
-    "eslint-plugin-import": "2.22.1"
+    "eslint-plugin-import": "2.22.1",
+    "yargs": "^17.0.1"
   }
 }
