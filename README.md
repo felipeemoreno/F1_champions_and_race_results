@@ -11,4 +11,11 @@ Passos necessários para desenvolver o projeto - clonagem, scripts necessários,
 
 
 ## Documentação
+Formula One API
 - https://documenter.getpostman.com/view/11586746/SztEa7bL#intro
+
+List all champions 
+node .\dist\index.js getChampions
+
+List race results from a year
+node .\dist\index.js getRaceResults --year=1991
