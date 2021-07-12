@@ -17,5 +17,8 @@ Formula One API
 List all champions 
 node .\dist\index.js getChampions
 
-List race results from a year
-node .\dist\index.js getRaceResults --year=1991
+List races from a year
+node .\dist\index.js getRaces --year=1991
+
+List results from a race year
+node .\dist\index.js getRaceResults --year=1991 --round=1
