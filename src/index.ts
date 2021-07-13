@@ -119,19 +119,23 @@ const getChampions = () => {
 
       const championsDataResults = data.MRData.StandingsTable.StandingsLists;
 
-      const champions = championsDataResults.map((champion: Champion) => {
-        return [
-          champion.season,
-          champion.round,
-          champion.DriverStandings[0].points,
-          champion.DriverStandings[0].wins,
-          champion.DriverStandings[0].Driver.driverId,
-          champion.DriverStandings[0].Driver.givenName,
-          champion.DriverStandings[0].Driver.familyName,
-        ];
-      });
+      const champions: Champion[] = championsDataResults.map(
+        (champion: Champion) => {
+          return [
+            new Champion(
+              champion.season,
+              champion.round,
+              champion.DriverStandings[0].points,
+              champion.DriverStandings[0].wins,
+              champion.DriverStandings[0].Driver.driverId,
+              champion.DriverStandings[0].Driver.givenName,
+              champion.DriverStandings[0].Driver.familyName,
+            ),
+          ];
+        },
+      );
 
-      console.table(champions);
+      console.log(util.inspect(champions, false, null, true));
       return champions;
     })
     .catch(err => {
