@@ -8,10 +8,16 @@ class RacesRepository {
     this.races = [];
   }
 
-  public list(response: AxiosResponse): Race[] {
+  public list(response: AxiosResponse): Race[] | null {
     const { data } = response;
+    const { total } = data.MRData;
+    const { Races } = data.MRData.RaceTable;
 
-    this.races = data.MRData.RaceTable.Races.map((race: Race) => {
+    if (Number(total) === 0) {
+      return null;
+    }
+
+    this.races = Races.map((race: Race) => {
       return {
         Season: race.season,
         Round: race.round,

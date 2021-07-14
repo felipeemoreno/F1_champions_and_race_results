@@ -18,6 +18,10 @@ const getRaces = (argv: yargs.Arguments) => {
     .then(response => {
       const races = racesRepository.list(response);
 
+      if (!races) {
+        console.error('Wrong Year!');
+      }
+
       console.table(races);
       return races;
     })
@@ -31,6 +35,10 @@ const getRaceResults = (argv: yargs.Arguments) => {
   API.get(`${year}/${round}/results.json`)
     .then(response => {
       const racesResults = racesResultsRepository.list(response);
+
+      if (!racesResults) {
+        console.error('Round or year not found!');
+      }
 
       console.log(util.inspect(racesResults, false, null, true));
       return racesResults;
