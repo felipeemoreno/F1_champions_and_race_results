@@ -5,45 +5,8 @@ import util from 'util';
 import API from './services/api';
 
 import Champion from './models/Champion';
-
-interface RaceData {
-  season: number;
-  round: number;
-  raceName: string;
-}
-
-interface RaceResultsData {
-  season: number;
-  round: number;
-  raceName: string;
-  Circuit: {
-    circuitName: string;
-  };
-  date: string;
-  Results: [
-    {
-      position: number;
-      Driver: {
-        givenName: string;
-        familyName: string;
-      };
-    },
-    {
-      position: number;
-      Driver: {
-        givenName: string;
-        familyName: string;
-      };
-    },
-    {
-      position: number;
-      Driver: {
-        givenName: string;
-        familyName: string;
-      };
-    },
-  ];
-}
+import Race from './models/Race';
+import RaceResult from './models/RaceResult';
 
 const getRaces = (argv: yargs.Arguments) => {
   const { year } = argv;
@@ -53,7 +16,7 @@ const getRaces = (argv: yargs.Arguments) => {
 
       const racesDataResult = data.MRData.RaceTable.Races;
 
-      const races = racesDataResult.map((race: RaceData) => {
+      const races = racesDataResult.map((race: Race) => {
         return {
           Season: race.season,
           Round: race.round,
@@ -77,7 +40,7 @@ const getRaceResults = (argv: yargs.Arguments) => {
 
       const racesDataResult = data.MRData.RaceTable.Races;
 
-      const races = racesDataResult.map((race: RaceResultsData) => {
+      const races = racesDataResult.map((race: RaceResult) => {
         return {
           Season: race.season,
           Round: race.round,
@@ -85,21 +48,13 @@ const getRaceResults = (argv: yargs.Arguments) => {
           Circuit: race.Circuit.circuitName,
           Date: race.date,
           Result: [
-            {
-              Position: race.Results[0].position,
-              GivenName: race.Results[0].Driver.givenName,
-              FamilyName: race.Results[0].Driver.familyName,
-            },
-            {
-              Position: race.Results[1].position,
-              GivenName: race.Results[1].Driver.givenName,
-              FamilyName: race.Results[1].Driver.familyName,
-            },
-            {
-              Position: race.Results[2].position,
-              GivenName: race.Results[2].Driver.givenName,
-              FamilyName: race.Results[2].Driver.familyName,
-            },
+            race.Results.map(result => {
+              return {
+                Position: result.position,
+                GivenName: result.Driver.givenName,
+                FamilyName: result.Driver.familyName,
+              };
+            }),
           ],
         };
       });
