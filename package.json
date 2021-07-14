@@ -1,7 +1,7 @@
 {
   "name": "F1_champions_and_race_results",
   "version": "0.0.1",
-  "description": "Application to search champions and results of F1 races.",
+  "description": "Application to search results of F1 races and champions.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
