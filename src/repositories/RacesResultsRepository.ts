@@ -17,7 +17,6 @@ class RaceResultsRepositories {
       return null;
     }
 
-    console.log(`${total} cheguie aqui`);
     // this.raceResults = .map((race: RaceResult) => {
     this.raceResults = Races.map((race: RaceResult) => {
       return {
