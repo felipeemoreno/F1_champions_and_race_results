@@ -1,5 +1,5 @@
 # F1 champions and Race Results
-Projeto desenvolvido para pesquisa dos e listagem dos campeões da Formula 1 e resultado das corridas.
+Projeto desenvolvido para pesquisa e listagem dos resultado das corridas de Formula 1 e seus campeões.
 
 
 ## Requisitos
