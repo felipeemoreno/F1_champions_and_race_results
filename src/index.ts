@@ -4,25 +4,19 @@ import util from 'util';
 
 import API from './services/api';
 
-import Champion from './models/Champion';
-import Race from './models/Race';
-import RaceResult from './models/RaceResult';
+import RacesRepository from './repositories/RacesRepository';
+import RacesResultsRepository from './repositories/RacesResultsRepository';
+import ChampionsRepository from './repositories/ChampionsRepository';
+
+const racesRepository = new RacesRepository();
+const racesResultsRepository = new RacesResultsRepository();
+const championsRepository = new ChampionsRepository();
 
 const getRaces = (argv: yargs.Arguments) => {
   const { year } = argv;
   API.get(`${year}.json`)
     .then(response => {
-      const { data } = response;
-
-      const racesDataResult = data.MRData.RaceTable.Races;
-
-      const races = racesDataResult.map((race: Race) => {
-        return {
-          Season: race.season,
-          Round: race.round,
-          RaceName: race.raceName,
-        };
-      });
+      const races = racesRepository.list(response);
 
       console.table(races);
       return races;
@@ -36,31 +30,10 @@ const getRaceResults = (argv: yargs.Arguments) => {
   const { year, round } = argv;
   API.get(`${year}/${round}/results.json`)
     .then(response => {
-      const { data } = response;
+      const racesResults = racesResultsRepository.list(response);
 
-      const racesDataResult = data.MRData.RaceTable.Races;
-
-      const races = racesDataResult.map((race: RaceResult) => {
-        return {
-          Season: race.season,
-          Round: race.round,
-          'Race Name': race.raceName,
-          Circuit: race.Circuit.circuitName,
-          Date: race.date,
-          Result: [
-            race.Results.map(result => {
-              return {
-                Position: result.position,
-                GivenName: result.Driver.givenName,
-                FamilyName: result.Driver.familyName,
-              };
-            }),
-          ],
-        };
-      });
-
-      console.log(util.inspect(races, false, null, true));
-      return races;
+      console.log(util.inspect(racesResults, false, null, true));
+      return racesResults;
     })
     .catch(err => {
       console.error(err);
@@ -70,25 +43,7 @@ const getRaceResults = (argv: yargs.Arguments) => {
 const getChampions = () => {
   API.get('driverStandings/1.json')
     .then(response => {
-      const { data } = response;
-
-      const championsDataResults = data.MRData.StandingsTable.StandingsLists;
-
-      const champions: Champion[] = championsDataResults.map(
-        (champion: Champion) => {
-          return [
-            new Champion(
-              champion.season,
-              champion.round,
-              champion.DriverStandings[0].points,
-              champion.DriverStandings[0].wins,
-              champion.DriverStandings[0].Driver.driverId,
-              champion.DriverStandings[0].Driver.givenName,
-              champion.DriverStandings[0].Driver.familyName,
-            ),
-          ];
-        },
-      );
+      const champions = championsRepository.list(response);
 
       console.log(util.inspect(champions, false, null, true));
       return champions;
