@@ -12,9 +12,9 @@ const racesRepository = new RacesRepository();
 const racesResultsRepository = new RacesResultsRepository();
 const championsRepository = new ChampionsRepository();
 
-const getRaces = (argv: yargs.Arguments) => {
+const getRaces = async (argv: yargs.Arguments) => {
   const { year } = argv;
-  API.get(`${year}.json`)
+  await API.get(`${year}.json`)
     .then(response => {
       const races = racesRepository.list(response);
 
@@ -30,9 +30,9 @@ const getRaces = (argv: yargs.Arguments) => {
     });
 };
 
-const getRaceResults = (argv: yargs.Arguments) => {
+const getRaceResults = async (argv: yargs.Arguments) => {
   const { year, round } = argv;
-  API.get(`${year}/${round}/results.json`)
+  await API.get(`${year}/${round}/results.json`)
     .then(response => {
       const racesResults = racesResultsRepository.list(response);
 
@@ -48,8 +48,8 @@ const getRaceResults = (argv: yargs.Arguments) => {
     });
 };
 
-const getChampions = () => {
-  API.get('driverStandings/1.json')
+const getChampions = async () => {
+  await API.get('driverStandings/1.json?limit=1000')
     .then(response => {
       const champions = championsRepository.list(response);
 
