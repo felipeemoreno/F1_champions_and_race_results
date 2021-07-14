@@ -1,3 +1,5 @@
+import Driver from './Driver';
+
 class Champion {
   season: number;
 
@@ -7,11 +9,7 @@ class Champion {
     {
       points: number;
       wins: number;
-      Driver: {
-        driverId: string;
-        givenName: string;
-        familyName: string;
-      };
+      Driver: Driver;
     },
   ];
 
@@ -30,11 +28,7 @@ class Champion {
       {
         points,
         wins,
-        Driver: {
-          driverId,
-          givenName,
-          familyName,
-        },
+        Driver: new Driver(driverId, givenName, familyName),
       },
     ];
   }
